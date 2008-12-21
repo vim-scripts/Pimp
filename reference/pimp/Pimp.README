@@ -1,0 +1,67 @@
+Pimp provides a python shell in order to support REPL style development
+
+*Description*
+Pimp (Python Chimp) is based on (blatantly copied from) the Chimp plugin
+(vimscript #2348).  It provides a very simple REPL mechanism by allowing you to
+evaluate the contents of the active vim buffer in a running python console and
+interact with the results.
+
+=Screenshots=
+http://www.flickr.com/photos/nushoin/3121961021/sizes/o/
+http://www.flickr.com/photos/nushoin/3121961023/sizes/o/
+
+To use the plugin you have to open a terminal (e.g. xterm) and run one of the
+two scripts provided in the 'bin' directory.  For a split screen configuration
+run ~/.vim/bin/vimPython.bash. For a gvim session interacting with a python
+interpreter running in another window run ~/.vim/bin/gvimPython.bash. Note that
+you have to *execute* the scripts, not source them.
+
+Now open a python source file or set the filetype to python (:set ft=python).
+Enter some python code, then hit <Esc> for normal mode, followed by <Leader>pf.
+The contents of the buffer should now be evaluated in the python console.
+
+=Default bindings=
+Assuming that your <Leader> key is '\':
+\pf Evaluate the current buffer (normal mode)
+\pb Evaluate the marked code (visual mode).
+
+=Tips=
+ - To move between the windows in the split screen configuration hit <Ctrl>-a
+   <Tab> (<Ctrl>-a is the escape key of gnu screen). 
+ - To resize the window hit <Ctrl>-a followed by :resize N<Enter> where N is the
+   number of lines, E.g.  <Ctrl>-a:resize 10<Enter>. 
+ - To scroll back hit <Ctrl>-a<Esc>. That enters screen's copy mode (similar to
+   vim's visual mode). To exit that mode hit <Esc>.
+
+It is advised to read the gnu screen manual (man screen) for additional
+information about screen's options and capabilities.
+
+*Installation*
+Pimp depends on IPython (http://ipython.scipy.org) as the python shell and on
+gnu screen (http://www.gnu.org/software/screen) for it's operation.
+
+Under Debian/Ubuntu:
+sudo apt-get install ipython screen
+Under Fedora:
+yum install ipython screen
+
+=Installing the plugin=
+mkdir ~/.vim
+cd ~/.vim
+tar -xvzf /path/to/Pimp.tar.gz
+chmod +x ~/.vim/bin/*.bash
+
+=Keyboard bindings=
+You may override the default keyboard bindings in your .vimrc file. For example
+to bind Ctrl-e add the following lines to your .vimrc file:
+map <c-e> <Plug>PimpEvalFile
+imap <c-e> <Esc><Plug>PimpEvalFilea
+vmap <c-e> <Plug>PimpEvalBlock
+
+=Problems and solutions=
+When working in the split screen configuration, vim is run under a gnu screen
+session.  gnu screen itself runs inside a terminal emulator, e.g. konsole. Both
+gnu screen and the terminal it is run in can cause various problems. Please
+refer to the file ~/.vim/reference/pimp/PimpCaveats.README for details.
+
+This plugin has been tested on Ubuntu 8.10 and Fedora 9.

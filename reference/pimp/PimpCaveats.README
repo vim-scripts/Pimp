@@ -1,0 +1,72 @@
+=Caveats and solutions=
+When working in the split screen configuration, vim is run under a gnu screen
+session. gnu screen itself runs inside a terminal emulator, e.g. konsole. Both
+gnu screen and the terminal it is run in can cause various problems. The
+problems described here generally do not apply to the seperate windows
+configuration (which is invoked by the gvimPython.bash script). They only apply
+to the split screen configuration, that is invoked by the vimPython.bash
+script.
+
+Keyboard shortcuts
+==================
+gnome-terminal and konsole trap some keyboard shortcuts. I guess that other
+terminal emulators do as well.  gnu screen also traps some keyboard shortcuts,
+and re-encodes others. That could prevent you from using e.g. Ctrl-PageUp to
+switch tabs when running vim under screen in gnome-terminal.
+
+While it is possible to remap *some* of the keys konsole and gnome-terminal
+trap, I didn't find a way to remap *all* the trapped special keys. Examples
+include Shift-Home under gnome-terminal and Shift-Right under konsole. The only
+solution I found for that problem was to use another terminal emulator, i.e.
+xterm. Under ubuntu you can use the following to invoke xterm with black on
+white fonts:
+xterm -fg black -bg white -fn "-*-dejavu sans mono-medium-r-normal-*-14-*-*-*-m-*-*-*"
+Now run the vimPython.bash script from within the xterm window.
+
+As for the re-encoding that screen does, it can be circumvented by using vim's
+map commands. To find out how screen encods a specific key combination, go to
+command mode (:), press Ctrl-k then your key combination of interest (e.g. Shift
+Right). Vim will write the code ([1;2C in that example). Now use the map command
+to assign the key of interest to that sequence. Don't forget to add <Esc> before
+the sequence. To follow the example:
+:map <Esc>[1;2C <S-Right>
+
+You can find my .vimrc in ~/.vim/reference/pimp. It contains the mappings for
+most common combinations.
+
+Refer to https://bugs.launchpad.net/ubuntu/+source/screen/+bug/82708 for more
+information.
+
+Colors
+======
+Though most modern terminals (gnome-terminal, konsole, xterm) support 256
+colors, they fail to communicate that fact. gnu screen might also cause some
+problems in that area. If you use the CSApprox plugin (vimscript #2390) you
+might need to do some tweaks to get it working. 
+
+First, to make screen recognize support for 'many' colors, you have to add some
+lines to your ~/.screenrc file. You can find my .screenrc file in
+~/.vim/reference/pimp. Refer to http://frexx.de/xterm-256-notes/ for more
+details.
+
+To make vim recognize that your terminal supports colors, you might have to add
+the line
+set t_Co=256
+to your .vimrc file.
+
+Furthermore, to use the CSApprox plugin you need gui support compiled into vim.
+Under Fedora 9 I had to invoke 'gvim -v' instead of 'vim' in the vimPython.bash
+script, so if you use Fedora 9 and the CSApprox script you'll have to change
+the vimPython script.
+
+Refer to http://www.linuxquestions.org/questions/linux-software-2/gnu-screen-wont-do-256-colors-with-xterm-rxvt-mrxvt-583880/
+and to the documentation for the CSApprox script for more details.
+
+Split screen layout is incorrect
+================================
+If when starting up the split screen configuration your screen does not look as
+it does in the screenshots (e.g. both vim and ipython occupy the top window, or
+there is only one window), it's probably caused by gnu screen's asynchronous
+behavior. Try using a larger delay in the vimPython.bash script (change the
+line with the sleep command to e.g. sleep 0.2s).
+

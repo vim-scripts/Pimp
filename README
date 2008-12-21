@@ -1,0 +1,55 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=2495
+
+Pimp (Python Chimp) is based on (blatantly copied from) the Chimp plugin
+(vimscript #2348).  It provides a very simple REPL mechanism by allowing you to
+evaluate the contents of the active vim buffer in a running python console and
+interact with the results.
+
+=Screenshots=
+http://www.flickr.com/photos/nushoin/3121961021/sizes/o/
+http://www.flickr.com/photos/nushoin/3121961023/sizes/o/
+
+To use the plugin you have to open a terminal (e.g. xterm) and run one of the
+two scripts provided in the 'bin' directory.  For a split screen configuration
+run ~/.vim/bin/vimPython.bash. For a gvim session interacting with a python
+interpreter running in another window run ~/.vim/bin/gvimPython.bash. Note that
+you have to *execute* the scripts, not source them.
+
+Now open a python source file or set the filetype to python (:set ft=python).
+Enter some python code, then hit <Esc> for normal mode, followed by <Leader>pf.
+The contents of the buffer should now be evaluated in the python console.
+
+*Note*
+The launching scripts try to run gvim, either in the terminal version (gvim -v,
+in the vimPython.bash script) or the gui version (gvimPython.bash). It is
+possible to run pimp with the non-gui version of vim by changing vimPython.bash.
+However in this case evaluating marked text in visual mode will not work.
+
+=Default bindings=
+Assuming that your <Leader> key is '&#039:
+\pf Evaluate the current buffer (normal mode)
+\pb Evaluate the marked code (visual mode).
+
+=Tips=
+ - To move between the windows in the split screen configuration hit <Ctrl>-a
+   <Tab> (<Ctrl>-a is the escape key of gnu screen). 
+ - To resize the window hit <Ctrl>-a followed by :resize N<Enter> where N is the
+   number of lines, E.g.  <Ctrl>-a:resize 10<Enter>. 
+ - To scroll back hit <Ctrl>-a<Esc>. That enters screen's copy mode (similar to
+   vim's visual mode). To exit that mode hit <Esc>.
+ - *New* As of Pimp version 0.5, evaluation of code selected in visual mode
+   actually works! Try using the right-extended visual block mode (Ctrl-v $) to
+   mark indented code (e.g. inside a function) in order to evaluate it. Take
+   advantage of the visual block mode to mark the code without the indentation
+   of course.
+ - The code is evaluated in IPython's namespace. That makes it possible to
+   access previously defined variables, functions etc. The reverse is true as
+   well - it's possible to switch to the IPython window and interact with the
+   results of the evaluated code, invoke functions etc.
+ - IPython has an abundance of 'magic' commands. For example it's possible to
+   'cd', 'pwd' etc. from within IPython. Check the IPython documentation for
+   details.
+
+It is advised to read the gnu screen manual (man screen) for additional
+information about gnu screen's options and capabilities.
+
