@@ -38,30 +38,34 @@ set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,
 
 " ctrl-pageup/down are already mapped to switch to the next/previous tabs.
 " however "screen" garbles them
-map <ESC>[5;5~ <C-PageUp>
-map <ESC>[6;5~ <C-PageDown>
-imap <ESC>[5;5~ <C-PageUp>
-imap <ESC>[6;5~ <C-PageDown>
-map <ESC>[1;2C <s-right>
-map <ESC>[1;2D <s-left>
-imap <ESC>[1;2C <s-right>
-imap <ESC>[1;2D <s-left>
-map <ESC>[1;2A <s-up>
-map <ESC>[1;2B <s-down>
-imap <ESC>[1;2A <s-up>
-imap <ESC>[1;2B <s-down>
-map <ESC>[1;2H <s-home>
-map <ESC>[1;2F <s-end>
-imap <ESC>[1;2H <s-home>
-imap <ESC>[1;2F <s-end>
-map <ESC>[1;5C <c-right>
-map <ESC>[1;5D <c-left>
-imap <ESC>[1;5C <c-right>
-imap <ESC>[1;5D <c-left>
-map <ESC>[1;6C <s-c-right>
-map <ESC>[1;6D <s-c-left>
-imap <ESC>[1;6C <s-c-right>
-imap <ESC>[1;6D <s-c-left>
+map <Esc>[5;5~ <C-PageUp>
+map <Esc>[6;5~ <C-PageDown>
+imap <Esc>[5;5~ <C-PageUp>
+imap <Esc>[6;5~ <C-PageDown>
+map <Esc>[1;5H <C-Home>
+map <Esc>[1;5F <C-End>
+imap <Esc>[1;5H <C-Home>
+imap <Esc>[1;5F <C-End>
+map <Esc>[1;2C <s-right>
+map <Esc>[1;2D <s-left>
+imap <Esc>[1;2C <s-right>
+imap <Esc>[1;2D <s-left>
+map <Esc>[1;2A <s-up>
+map <Esc>[1;2B <s-down>
+imap <Esc>[1;2A <s-up>
+imap <Esc>[1;2B <s-down>
+map <Esc>[1;2H <s-home>
+map <Esc>[1;2F <s-end>
+imap <Esc>[1;2H <s-home>
+imap <Esc>[1;2F <s-end>
+map <Esc>[1;5C <c-right>
+map <Esc>[1;5D <c-left>
+imap <Esc>[1;5C <c-right>
+imap <Esc>[1;5D <c-left>
+map <Esc>[1;6C <s-c-right>
+map <Esc>[1;6D <s-c-left>
+imap <Esc>[1;6C <s-c-right>
+imap <Esc>[1;6D <s-c-left>
 
 " some other tab shortcuts
 map <c-k> :tabnext<CR>

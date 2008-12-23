@@ -20,6 +20,12 @@ Now open a python source file or set the filetype to python (:set ft=python).
 Enter some python code, then hit <Esc> for normal mode, followed by <Leader>pf.
 The contents of the buffer should now be evaluated in the python console.
 
+*Note*
+The launching scripts try to run gvim, either in the terminal version (gvim -v,
+in the vimPython.bash script) or the gui version (gvimPython.bash). It is
+possible to run pimp with the non-gui version of vim by changing vimPython.bash.
+However in this case evaluating marked text in visual mode will not work.
+
 =Default bindings=
 Assuming that your <Leader> key is '\':
 \pf Evaluate the current buffer (normal mode)
@@ -32,24 +38,41 @@ Assuming that your <Leader> key is '\':
    number of lines, E.g.  <Ctrl>-a:resize 10<Enter>. 
  - To scroll back hit <Ctrl>-a<Esc>. That enters screen's copy mode (similar to
    vim's visual mode). To exit that mode hit <Esc>.
+ - *New* As of Pimp version 0.5, evaluation of code selected in visual mode
+   actually works! Try using the right-extended visual block mode (Ctrl-v $) to
+   mark indented code (e.g. inside a function) in order to evaluate it. Take
+   advantage of the visual block mode to mark the code without the indentation
+   of course.
+ - The code is evaluated in IPython's namespace. That makes it possible to
+   access previously defined variables, functions etc. The reverse is true as
+   well - it's possible to switch to the IPython window and interact with the
+   results of the evaluated code, invoke functions etc.
+ - IPython has an abundance of 'magic' commands. For example it's possible to
+   'cd', 'pwd' etc. from within IPython. Check the IPython documentation for
+   details.
 
 It is advised to read the gnu screen manual (man screen) for additional
-information about screen's options and capabilities.
+information about gnu screen's options and capabilities.
 
 *Installation*
 Pimp depends on IPython (http://ipython.scipy.org) as the python shell and on
-gnu screen (http://www.gnu.org/software/screen) for it's operation.
+gnu screen (http://www.gnu.org/software/screen) for it's operation. It is also
+recommended to install the full version of vim (the package is named vim-gnome 
+under Ubuntu and vim-enhanced in Fedora).
 
 Under Debian/Ubuntu:
-sudo apt-get install ipython screen
+sudo apt-get install ipython screen vim-gnome
 Under Fedora:
-yum install ipython screen
+yum install ipython screen vim-enhanced
 
 =Installing the plugin=
 mkdir ~/.vim
 cd ~/.vim
 tar -xvzf /path/to/Pimp.tar.gz
 chmod +x ~/.vim/bin/*.bash
+
+Add the following to your ~/.vimrc file:
+filetype plugin on
 
 =Keyboard bindings=
 You may override the default keyboard bindings in your .vimrc file. For example
@@ -61,7 +84,16 @@ vmap <c-e> <Plug>PimpEvalBlock
 =Problems and solutions=
 When working in the split screen configuration, vim is run under a gnu screen
 session.  gnu screen itself runs inside a terminal emulator, e.g. konsole. Both
-gnu screen and the terminal it is run in can cause various problems. Please
-refer to the file ~/.vim/reference/pimp/PimpCaveats.README for details.
+gnu screen and the terminal it is run in can cause various problems. Those
+problems include trapping of keyboard shortcuts, wrong handling of colors
+(relevant to users of CSApprox - vimscript #2390) etc. Please refer to the file
+~/.vim/reference/pimp/PimpCaveats.README for details.
 
-This plugin has been tested on Ubuntu 8.10 and Fedora 9.
+=Testing=
+This plugin has been tested on Ubuntu 8.10 and Fedora 9. If you can test it on
+other platforms I'll be happy to hear about any platform related bugs and
+solutions, and will integrate the fix into the next version.
+
+Please send me an email if you have any problem installing or using the plugin.
+My email is listed on my profile page.
+

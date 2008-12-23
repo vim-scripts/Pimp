@@ -61,10 +61,11 @@ endfunction
 function! python_pimp#EvalCode(ipython, lines)
 	let dotIndex = stridx(a:ipython, '.')
 	let buffile = g:python_pimp#BufferDirectory . "/" . g:python_pimp#BufferFile. strpart(a:ipython, 0, dotIndex) . ".py"
-	call writefile(a:lines, buffile)
+    let preprocessed = ["__name__ = '__pimp_eval__'"] + a:lines
+	call writefile(preprocessed, buffile)
 	call system(g:python_pimp#ScreenCommand . ' -x ' . a:ipython . ' -X eval "focus"')
 	call system(g:python_pimp#ScreenCommand . ' -x ' . a:ipython
-				\ . ' -X stuff "%run -n ' . buffile . "\n" . '"')
+				\ . ' -X stuff "%run -i ' . buffile . "\n" . '"')
 	call system(g:python_pimp#ScreenCommand . ' -x ' . a:ipython . ' -X eval "focus"')
 endfunction
 "
@@ -129,7 +130,8 @@ endfunction
 function! s:EvalBlock() range
 	call s:Connect()
 
-	let b = s:Yank("l", a:firstline . "," . a:lastline . "yank l")
+    " get the contents of the clipboard
+    let b = @*
 
 	call python_pimp#SendMessage(s:PimpId, b)
 endfunction

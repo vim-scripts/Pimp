@@ -83,7 +83,7 @@ msgminwait      0
 defflow         off
 EOF
 
-	exec ${screen} -c "${screenrc}" -S pimp -- "${majmunka}" -d "${bufferdir}" -s "${screen}" -S "${screenrc}"
+	exec ${screen} -c "${screenrc}" -S pimp -t vim -- "${majmunka}" -d "${bufferdir}" -s "${screen}" -S "${screenrc}"
 else
 	bufferfile="${bufferdir}/${prog}.${STY}.pipe"
 	pyfile="${bufferdir}/${prog}$(basename $STY .pimp).py"
@@ -93,7 +93,7 @@ else
 	# command finished executing, so we have to wait a little. otherwise this script might
 	# not work correctly.
 	${screen} -x ${STY} -X eval "screen ipython"
-	sleep 0.1s
+	sleep 0.2s
 	
 	${screen} -x ${STY} -X eval "split"
 	${screen} -x ${STY} -X eval "focus bottom"
@@ -104,7 +104,7 @@ else
 	${screen} -x ${STY} -X eval "hardstatus alwayslastline \"%{= bW}Pimp: <C-a>d to disconnect. Pimp Id: ${STY}\""
 	${screen} -x ${STY} -X eval "bufferfile ${bufferfile}"
 	
-	vim
+	gvim -v
 
 	rm -f ${bufferfile} ${screenrc} ${pyfile}
 fi

@@ -23,7 +23,7 @@ white fonts:
 xterm -fg black -bg white -fn "-*-dejavu sans mono-medium-r-normal-*-14-*-*-*-m-*-*-*"
 Now run the vimPython.bash script from within the xterm window.
 
-As for the re-encoding that screen does, it can be circumvented by using vim's
+As for re-encoding keycodes by gnu screen, it can be circumvented by using vim's
 map commands. To find out how screen encods a specific key combination, go to
 command mode (:), press Ctrl-k then your key combination of interest (e.g. Shift
 Right). Vim will write the code ([1;2C in that example). Now use the map command
@@ -32,15 +32,15 @@ the sequence. To follow the example:
 :map <Esc>[1;2C <S-Right>
 
 You can find my .vimrc in ~/.vim/reference/pimp. It contains the mappings for
-most common combinations.
+the most common special keys combinations.
 
 Refer to https://bugs.launchpad.net/ubuntu/+source/screen/+bug/82708 for more
 information.
 
-Colors
-======
+Vim Colors
+==========
 Though most modern terminals (gnome-terminal, konsole, xterm) support 256
-colors, they fail to communicate that fact. gnu screen might also cause some
+colors, they fail to communicate that fact. Gnu screen might also cause some
 problems in that area. If you use the CSApprox plugin (vimscript #2390) you
 might need to do some tweaks to get it working. 
 
@@ -56,17 +56,46 @@ to your .vimrc file.
 
 Furthermore, to use the CSApprox plugin you need gui support compiled into vim.
 Under Fedora 9 I had to invoke 'gvim -v' instead of 'vim' in the vimPython.bash
-script, so if you use Fedora 9 and the CSApprox script you'll have to change
-the vimPython script.
+script.
 
 Refer to http://www.linuxquestions.org/questions/linux-software-2/gnu-screen-wont-do-256-colors-with-xterm-rxvt-mrxvt-583880/
 and to the documentation for the CSApprox script for more details.
+
+IPython Colors
+==============
+IPython is also run in a screen session, so the information in the 'Vim Colors'
+section is relevant here as well. In addition, IPython by default (at least on
+ubuntu and fedora) works with a color scheme which is appropriate for dark
+background. If you prefer using a light background, there is an option to
+change IPython's color scheme. From within IPython, try '%colors LightBG'. If
+you'd like it to be set on a permanent basis, it can be done in
+~/.ipython/ipy_user_conf.py. You can find my ipy_user_conf.py in
+/.vim/reference/pimp.
 
 Split screen layout is incorrect
 ================================
 If when starting up the split screen configuration your screen does not look as
 it does in the screenshots (e.g. both vim and ipython occupy the top window, or
 there is only one window), it's probably caused by gnu screen's asynchronous
-behavior. Try using a larger delay in the vimPython.bash script (change the
-line with the sleep command to e.g. sleep 0.2s).
+execution. Try using a larger delay in the vimPython.bash script (change the
+line with the sleep command to e.g. sleep 0.4s).
+
+IPython limitations
+===================
+The version of IPython that I use (0.8.4) has a bug (feature?) regarding the
+magic command %run.  It can either accept the '-i' option which causes the script
+to run in the current namespace but with the __name__ variable set to '__main__',
+*or* use the '-n' option which causes the script to run in an empty environment
+but the __name__ variable is set to something different than '__main__'. 
+
+The result is that either the script has access to the current state of the
+python interpreter but is running the 'main' code, or the script does not have
+access to the current namespace but code protected under "if __name__ ==
+'__main__'" will not run.
+
+I chose to use the -i option, so code in the script can access the current
+IPython environment. In order to prevent code protected under __name__ ==
+'__main__' from running, the __name__ variable is set to some other (possibly
+random and subject to change in a future version of pimp) string before the 
+script is run. I reckon that this is more or less the desired behavior.
 
